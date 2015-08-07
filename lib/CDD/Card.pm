@@ -19,7 +19,11 @@ has val  => (is => 'ro',
                       },
             );
 
-use overload '""' => sub { $_[0]->rank . $_[0]->suit };
+use overload '""' => \&as_string;
+
+sub as_string{ 
+    $_[0]->rank . $_[0]->suit 
+};
     
 1;
 
