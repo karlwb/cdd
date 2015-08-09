@@ -3,7 +3,7 @@ use Moo::Role;
 use List::MoreUtils qw/all/;
 use Carp qw/confess/;
 
-requires qw/shuffle sort sort_by as_string _build_cards/;
+requires qw/shuffle sort sort_by as_string as_unicode _build_cards/;
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -23,8 +23,6 @@ sub BUILDARGS {
         return { @args };
     }
 }
-
-
 
 sub _build_cards {
     [];
