@@ -22,7 +22,7 @@ sub _validate {
             return $cards;
         }
     }
-    confess "Not a valid straight";
+    confess "Not a valid flush";
 }
 
 1;
