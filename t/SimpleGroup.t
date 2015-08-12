@@ -2,13 +2,14 @@ use Modern::Perl;
 use Test::More;
 use CDD::Card;
 use List::MoreUtils qw/any all/;
-use lib 't';
-use TestGroup; # couldn't inline this package in the t file...Moo thing?
 
-my $g = TestGroup->new;
+require_ok 'CDD::SimpleGroup';
+use_ok 'CDD::SimpleGroup';
+
+my $g = CDD::SimpleGroup->new;
 is_deeply $g->cards, [], "empty group";
 
-$g = TestGroup->new('6d', '3d', '5c', '7d', '4h',);
+$g = CDD::SimpleGroup->new('6d', '3d', '5c', '7d', '4h',);
 is "$g", '[6D, 3D, 5C, 7D, 4H]', 'group as strings';
 is $g->sort->as_string, '[3D, 4H, 5C, 6D, 7D]', 'sort';
 is $g->sort_by('rank', 'desc')->as_string, '[7D, 6D, 5C, 4H, 3D]', 'sort_by rank desc';
