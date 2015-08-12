@@ -1,21 +1,22 @@
 package CDD::Card;
+use Carp qw/confess/;
 use Moo;
 
 has rank => (is => 'ro', 
              required => 1,
-             isa => sub{ die "invalid rank $_[0]" unless $_[0] =~ m/^[2-9JQKA]|10$/i },
+             isa => sub{ confess "invalid rank $_[0]" unless $_[0] =~ m/^[2-9JQKA]|10$/i },
              coerce => sub { uc $_[0] },
             );
 has suit => (is => 'ro', 
              required=>1,
-             isa => sub{ die "invalid suit $_[0]" unless $_[0] =~ m/^[DCHS]$/i },
+             isa => sub{ confess "invalid suit $_[0]" unless $_[0] =~ m/^[DCHS]$/i },
              coerce => sub { uc $_[0] },
             );
 has val  => (is => 'ro', 
              required=>1,
-             isa => sub { die "val must be a number got $_[0]" if $_[0] !~ m/^\d+$/; 
-                          die "val must be positive got $_[0]" if $_[0] < 1;
-                          die "val must be <= 52 got $_[0]" if $_[0] > 52; 
+             isa => sub { confess "val must be a number got $_[0]" if $_[0] !~ m/^\d+$/; 
+                          confess "val must be positive got $_[0]" if $_[0] < 1;
+                          confess "val must be <= 52 got $_[0]" if $_[0] > 52; 
                       },
             );
 
@@ -37,7 +38,7 @@ our %UNICODE = ( D => '♢', C => '♧', H => '♡', S => '♤' );
 
 sub BUILDARGS {
     my ($class, @args) = @_;
-    die "Must supply args" if not defined $args[0];
+    confess "Must supply args" if not defined $args[0];
     if (ref($args[0]) eq '') {
         if ($args[0] =~ m/^(.*)([DCHS])$/i) {
             my $rank = uc $1;
