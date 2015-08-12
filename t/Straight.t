@@ -9,6 +9,7 @@ use_ok 'CDD::Play::Straight';
 lives_ok { CDD::Play::Straight->new('3d', '4c', '5c', '6h', '7d')} 'new lives';
 dies_ok { CDD::Play::Straight->new('3d', '4c', '5c', '6h', '6h')} 'new dies: 2 of same card';
 dies_ok { CDD::Play::Straight->new('3d', '4c', '5c', '6h', '8d')} 'new dies: different rank';
+dies_ok { CDD::Play::Straight->new('3d', '4d', '5d', '6d', '7d')} 'new dies: straight flush';
 dies_ok { CDD::Play::Straight->new('3d', '4c', '5c', '6h', '7d', '8c')} 'new dies: too many';
 dies_ok { CDD::Play::Straight->new('ad')} 'new dies: too few';
 
