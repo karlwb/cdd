@@ -11,6 +11,7 @@ dies_ok { CDD::Play::Single->new('ad', 'ac')} 'new dies';
 my $_4h = CDD::Play::Single->new('4h');
 is $_4h->size, 1, 'size right';
 is $_4h->val, -1, 'val right';
+is_deeply $_4h->highest, CDD::Card->new('4h'), 'highest';
 diag "TODO: Fix single val";
 is "$_4h", "[4H]", "string interpolation";
 is $_4h->as_string, '[4H]', "as_string";

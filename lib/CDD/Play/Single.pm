@@ -4,7 +4,7 @@ use Moo;
 use CDD::Card;
 extends 'CDD::Play';
 
-sub validate {
+sub _validate {
     my ($class, $group) = @_;
     my $cards = $group->cards;
     if ( @{$cards} == 1) {
@@ -13,9 +13,14 @@ sub validate {
     confess "Not a valid single";
 }
 
-sub valuate {
+sub _valuate {
     my ($class, $group) = @_;
     return -1; # todo
+}
+
+sub _highest {
+    my ($class, $group) = @_;
+    return $group->cards->[0];
 }
 
 sub _3way_compare {
