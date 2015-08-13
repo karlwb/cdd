@@ -16,6 +16,7 @@ dies_ok { CDD::Play::Straight->new('ad')} 'new dies: too few';
 my $low = CDD::Play::Straight->new('3d', '4c', '5c', '6h', '7c');
 is $low->size, 5, 'size right';
 is $low->val, -1, 'val right';
+diag "TODO: Fix straight val";
 is_deeply $low->highest, CDD::Card->new('7c'), 'highest';
 is "$low", "[7C, 6H, 5C, 4C, 3D]", "string interpolation";
 is $low->as_string, '[7C, 6H, 5C, 4C, 3D]', "as_string";

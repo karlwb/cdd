@@ -16,6 +16,7 @@ dies_ok { CDD::Play::StraightFlush->new('ad')} 'new dies: too few';
 my $low = CDD::Play::StraightFlush->new('4d', '5d', '6d', '7D', '8d');
 is $low->size, 5, 'size right';
 is $low->val, -1, 'val right';
+diag "TODO: Fix straight flush val";
 is_deeply $low->highest, CDD::Card->new('8D'), 'highest';
 is "$low", "[8D, 7D, 6D, 5D, 4D]", "string interpolation";
 is $low->as_string, '[8D, 7D, 6D, 5D, 4D]', "as_string";
