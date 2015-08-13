@@ -1,7 +1,6 @@
 package CDD::Play::Flush;
 use Carp qw/confess/;
 use Moo;
-use CDD::Card;
 extends 'CDD::Play::FiveCard';
 
 sub _validate {
