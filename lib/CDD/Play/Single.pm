@@ -6,10 +6,7 @@ extends 'CDD::Play';
 
 sub _validate {
     my ($class, $group) = @_;
-    my $cards = $group->cards;
-    if ( @{$cards} == 1) {
-        return $cards
-    }
+    return $group->cards if $group->is_single;
     confess "Not a valid single";
 }
 

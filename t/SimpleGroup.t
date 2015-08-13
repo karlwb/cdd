@@ -23,5 +23,70 @@ is "$g", $str, "overloaded string";
 my $x = any { $g->shuffle->as_string ne $str } (1..5); #hopefully 
 is $x, 1, 'shuffle';
 
+$g = CDD::SimpleGroup->new('3d');
+is $g->is_single, 1, 'single is_single';
+is $g->is_pair, '', 'single not is_pair';
+is $g->is_triple, '', 'single not is_triple';
+is $g->is_run, '', 'single not is_run';
+is $g->is_same_suit, 1, 'single is_same_suit';
+is $g->is_full_house, '', 'single not is_full_house';
+is $g->is_quad_plus_one, '', 'single not is_quad_plus_one';
+
+$g = CDD::SimpleGroup->new('3d', '3c');
+is $g->is_single, '', 'pair not is_single';
+is $g->is_pair, 1, 'pair  is_pair';
+is $g->is_triple, '', 'pair not is_triple';
+is $g->is_run, '', 'pair not is_run';
+is $g->is_same_suit, '', 'pair not is_same_suit';
+is $g->is_full_house, '', 'pair not is_full_house';
+is $g->is_quad_plus_one, '', 'pair not is_quad_plus_one';
+
+$g = CDD::SimpleGroup->new('3d', '3c', '3h');
+is $g->is_single, '', 'triple not is_single';
+is $g->is_pair, '', 'triple  is_pair';
+is $g->is_triple, 1, 'triple not is_triple';
+is $g->is_run, '', 'triple not is_run';
+is $g->is_same_suit, '', 'triple not is_same_suit';
+is $g->is_full_house, '', 'triple not is_full_house';
+is $g->is_quad_plus_one, '', 'triple not is_quad_plus_one';
+
+
+$g = CDD::SimpleGroup->new('3d', '4d', '5d', '6d', '7d');
+is $g->is_single, '', 'straight flush not is_single';
+is $g->is_pair, '', 'straight flush not is_pair';
+is $g->is_triple, '', 'straight flush not is_triple';
+is $g->is_run, 1, 'straight flush is_run';
+is $g->is_same_suit, 1, 'straight flush is_same_suit';
+is $g->is_full_house, '', 'straight flush not is_full_house';
+is $g->is_quad_plus_one, '', 'straight flush not is_quad_plus_one';
+
+$g = CDD::SimpleGroup->new('3d', '3c', '3h', '4d', '4c');
+is $g->is_single, '', 'fullhouse not is_single';
+is $g->is_pair, '', 'fullhouse not is_pair';
+is $g->is_triple, '', 'fullhouse not is_triple';
+is $g->is_run, '', 'fullhouse not is_run';
+is $g->is_same_suit, '', 'fullhouse not is_same_suit';
+is_deeply $g->is_full_house, [[CDD::Card->new('3d'),
+                               CDD::Card->new('3c'),
+                               CDD::Card->new('3h')], 
+                              [CDD::Card->new('4d'),
+                               CDD::Card->new('4c')]
+                             ], 'fullhouse is_full_house';
+is $g->is_quad_plus_one, '', 'fullhouse not is_quad_plus_one';
+
+$g = CDD::SimpleGroup->new('3d', '3c', '3h', '3s', '4c');
+is $g->is_single, '', 'quad+1 not is_single';
+is $g->is_pair, '', 'quad+1 not is_pair';
+is $g->is_triple, '', 'quad+1 not is_triple';
+is $g->is_run, '', 'quad+1 not is_run';
+is $g->is_same_suit, '', 'quad+1 not is_same_suit';
+is $g->is_full_house, '', 'quad+1 not is_full_house';
+is_deeply $g->is_quad_plus_one, [[CDD::Card->new('3d'),
+                                  CDD::Card->new('3c'),
+                                  CDD::Card->new('3h'),
+                                  CDD::Card->new('3s')],
+                                 [CDD::Card->new('4c')]
+                                ], 'quad+1 is_quad_plus_one';
+
 done_testing;
 
