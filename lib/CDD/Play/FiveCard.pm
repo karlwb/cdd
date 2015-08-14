@@ -15,7 +15,7 @@ our %TYPE_VAL = ( 'CDD::Play::Straight'      => 1,
 
 sub _validate {
     my ($class, $group) = @_;
-    my $cards = $group->sort_by('val', 'desc')->cards;
+    my $cards = $group->sort_by('val', 'desc', 0);
     return $cards if ( exists $TYPE_VAL{$class} and @{$cards} == 5 and scalar(uniq map{$_->val} @{$cards}) == 5 );
     confess "Not a valid 5-card group";
 }
