@@ -6,8 +6,8 @@ extends 'CDD::Play::FiveCard';
 
 sub _validate {
     my ($class, $group) = @_;
-    $class->SUPER::_validate($group);
-    return $group->cards if $group->is_full_house and exists $CDD::Val::FULLHOUSE_VAL->{$group->key};
+    my $cards = $class->SUPER::_validate($group);
+    return $cards if exists $CDD::Val::FULLHOUSE_VAL->{$group->key};
     confess "Not a valid full house";
 }
 
