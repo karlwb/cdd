@@ -10,8 +10,9 @@ my $g = CDD::SimpleGroup->new;
 is_deeply $g->cards, [], "empty group";
 
 $g = CDD::SimpleGroup->new('6d', '3d', '5c', '7d', '4h',);
-is "$g", '[6D, 3D, 5C, 7D, 4H]', 'group as strings';
+is "$g", '[3D, 4H, 5C, 6D, 7D]', 'group as strings';
 is $g->sort->as_string, '[3D, 4H, 5C, 6D, 7D]', 'sort';
+is $g->key, '[3D,4H,5C,6D,7D]', 'key';
 is $g->sort_by('rank', 'desc')->as_string, '[7D, 6D, 5C, 4H, 3D]', 'sort_by rank desc';
 is $g->sort_by('rank', 'asc')->as_string, '[3D, 4H, 5C, 6D, 7D]', 'sort_by rank asc';
 is $g->sort_by('suit', 'desc')->as_string, '[4H, 5C, 7D, 6D, 3D]', 'sort_by suit desc';

@@ -15,12 +15,11 @@ dies_ok { CDD::Play::Flush->new('ad')} 'new dies: too few';
 
 my $low = CDD::Play::Flush->new('4d', '5d', '8d', 'JD', '3d');
 is $low->size, 5, 'size right';
-is $low->val, -1, 'val right';
-diag "TODO: Fix flush val";
+is $low->val, 40, 'val right';
 is_deeply $low->highest, CDD::Card->new('JD'), 'highest';
-is "$low", "[JD, 8D, 5D, 4D, 3D]", "string interpolation";
-is $low->as_string, '[JD, 8D, 5D, 4D, 3D]', "as_string";
-is $low->as_unicode,'[J♢, 8♢, 5♢, 4♢, 3♢]', "as_unicode";
+is "$low", "[3D, 4D, 5D, 8D, JD]", "string interpolation";
+is $low->as_string, '[3D, 4D, 5D, 8D, JD]', "as_string";
+is $low->as_unicode,'[3♢, 4♢, 5♢, 8♢, J♢]', "as_unicode";
 is $low->sort->as_string, '[3D, 4D, 5D, 8D, JD]', "sort";
 is_deeply $low->cards, [CDD::Card->new('3D'), CDD::Card->new('4D'), CDD::Card->new('5D'), CDD::Card->new('8D'), CDD::Card->new('JD')], 'cards';
 

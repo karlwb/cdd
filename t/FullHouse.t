@@ -15,16 +15,13 @@ dies_ok { CDD::Play::FullHouse->new('ad')} 'new dies: too few';
 
 my $low = CDD::Play::FullHouse->new('6d', '6c', '6h', '4d', '4c');
 is $low->size, 5, 'size right';
-is $low->val, -1, 'val right';
-diag "TODO: Fix full house val";
+is $low->val, 72, 'val right';
 is_deeply $low->highest, CDD::Card->new('6H'), 'highest';
-is "$low", "[6D, 6C, 6H, 4D, 4C]", "string interpolation";
-is $low->as_string, '[6D, 6C, 6H, 4D, 4C]', "as_string";
-is $low->as_unicode,'[6♢, 6♧, 6♡, 4♢, 4♧]', "as_unicode";
+is "$low", "[4D, 4C, 6D, 6C, 6H]", "string interpolation";
+is $low->as_string, '[4D, 4C, 6D, 6C, 6H]', "as_string";
+is $low->as_unicode,'[4♢, 4♧, 6♢, 6♧, 6♡]', "as_unicode";
 is $low->sort->as_string, '[4D, 4C, 6D, 6C, 6H]',  "sort";
 is_deeply $low->cards, [CDD::Card->new('4D'), CDD::Card->new('4C'), CDD::Card->new('6D'), CDD::Card->new('6C'), CDD::Card->new('6H')], 'cards';
-is_deeply $low->subgroup->{pair}, [CDD::Card->new('4d'), CDD::Card->new('4c')], 'pair subgroup';
-is_deeply $low->subgroup->{triple}, [CDD::Card->new('6d'), CDD::Card->new('6c'), CDD::Card->new('6h')], 'triple subgroup';
 
 my $lower = CDD::Play::FullHouse->new('4d', '4c', '4h', '5d', '5c');
 my $lower2 = CDD::Play::FullHouse->new('5d', '4c', '4h', '5c', '4d');
