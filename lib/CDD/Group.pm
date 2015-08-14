@@ -3,8 +3,6 @@ use Moo::Role;
 use List::MoreUtils qw/all uniq/;
 use Carp qw/confess/;
 
-requires qw/shuffle sort sort_by as_string as_unicode _build_cards/;
-
 sub BUILDARGS {
     my ($class, @args) = @_;
     if ( ref($args[0]) eq 'ARRAY' and ref($args[0]->[0]) eq 'CDD::Card') {
@@ -131,7 +129,6 @@ sub sort_by {
     my $attr  = shift;   # 'rank', 'suit', 'val'
     my $order = shift // 'asc';    # 'asc', 'desc'
     my $in_place = shift // 1;   # sort cards in place and return self, or return aref of sorted cards
-
     if    ($order =~ m/^a/i) {$order = 'asc'}
     elsif ($order =~ m/^d/i) {$order = 'desc'}
     else                     {die "unknown sort order: $order; try 'asc' or 'desc'";}
@@ -175,4 +172,8 @@ has cards => (
     builder => \&_build_cards,
 );
 
+has key => ( is => 'ro',
+             builder => sub{ '[' . join(',', @{shift->sort->cards}) . ']' }, 
+           );
+             
 1;

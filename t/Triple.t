@@ -14,12 +14,11 @@ dies_ok { CDD::Play::Triple->new('ad')} 'new dies: too few';
 
 my $aces = CDD::Play::Triple->new('ad', 'ac', 'ah');
 is $aces->size, 3, 'size right';
-is $aces->val, -1, 'val right';
+is $aces->val, 12, 'val right';
 is_deeply $aces->highest, CDD::Card->new('ah'), 'highest';
-diag "TODO: Fix triple val";
-is "$aces", "[AH, AC, AD]", "string interpolation";
-is $aces->as_string, '[AH, AC, AD]', "as_string";
-is $aces->as_unicode,'[A♡, A♧, A♢]', "as_unicode";
+is "$aces", "[AD, AC, AH]", "string interpolation";
+is $aces->as_string, '[AD, AC, AH]', "as_string";
+is $aces->as_unicode,'[A♢, A♧, A♡]', "as_unicode";
 is $aces->sort->as_string, '[AD, AC, AH]', "sort";
 is_deeply $aces->cards, [CDD::Card->new('AD'), CDD::Card->new('AC'), CDD::Card->new('AH')], 'cards';
 
