@@ -9,6 +9,7 @@ my $VERBOSE = 2;  # 0 say nothing, 1 just overview, 2 data
 # used many times when generating database:
 my $GROUPID; 
 my $VALUE;  
+my $INDEX=0;
 my $SQL_CARD = q/insert into card (id, rank,suit_id,value) values (?,?,?,?)/;
 my $SQL_GRP  = q/insert into grp (id, numcards, grptype_id, value) values (?,?,?,?)/;
 my $SQL_GRPCARD = q/insert into grpcard (grp_id, card_id) values (?,?)/;
@@ -77,18 +78,44 @@ sub _create_schema {
     my $db = shift;
     say "creating tables..." if $VERBOSE;
     my $create = {
-        card => q/create table card (id text not null primary key, rank integer not null, suit_id  text not null, value integer not null)/,
-        grp  => q/create table grp (id integer not null primary key, numcards integer not null, grptype_id integer not null, value integer not null ); /,
-        grpavail => q/create table grpavail ( grp_id integer not null primary key, available integer not null )/,
-        grpcard  => q/create table grpcard ( card_id integer not null, grp_id integer not null, primary key (card_id, grp_id))/,
-        grptype  => q/create table grptype ( id integer not null primary key, name text not null )/,
-        suit     => q/create table suit ( id text not null primary key, name text not null, rank integer not null )/,
+        card => { create => q/create table card (id text not null primary key, rank integer not null, suit_id  text not null, value integer not null)/,
+                  index => [q/create index idx%d on card(id)/,
+                            q/create index idx%d on card(rank, suit_id)/,
+                            q/create index idx%d on card(value)/,
+                           ],
+                },
+        grp  => {create => q/create table grp (id integer not null primary key, numcards integer not null, grptype_id integer not null, value integer not null ); /,
+                 index => [q/create index idx%d on grp(id)/,
+                           q/create index idx%d on grp(numcards)/,
+                           q/create index idx%d on grp(grptype_id)/,
+                           q/create index idx%d on grp(value)/,
+                          ],
+                },
+        grpavail => {create => q/create table grpavail ( grp_id integer not null primary key, available integer not null )/,
+                     index => [q/create index idx%d on grpavail(grp_id)/,
+                              ],
+                    },
+        grpcard  => {create => q/create table grpcard ( card_id integer not null, grp_id integer not null, primary key (card_id, grp_id))/,
+                     index => [q/create index idx%d on grpcard(card_id)/,
+                               q/create index idx%d on grpcard(grp_id)/,
+                               q/create index idx%d on grpcard(card_id, grp_id)/
+                              ],
+                    },
+        grptype  => {create => q/create table grptype ( id integer not null primary key, name text not null )/,
+                     index => [q/create index idx%d on grptype(id)/],
+                    },
+        suit     => {create => q/create table suit ( id text not null primary key, name text not null, rank integer not null )/,
+                     index => [q/create index idx%d on suit(id)/],
+                    },
     };
 
     foreach my $table (qw/card grp grpavail grpcard grptype suit/) {
         say "  * $table" if $VERBOSE;
         $db->query("drop table if exists $table");
-        $db->query($create->{$table});
+        $db->query($create->{$table}{create});
+        foreach my $idx (@{$create->{$table}{index}}) {
+            $db->query(sprintf($idx, $INDEX++));
+        }
     }
 }
 
