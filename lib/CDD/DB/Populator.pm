@@ -4,7 +4,7 @@ use Mojo::SQLite;
 use Carp qw/confess/;
 use CDD::Card;
 
-my $VERBOSE = 2;  # 0 say nothing, 1 just overview, 2 data
+my $VERBOSE = 0;  # 0 say nothing, 1 just overview, 2 data
 
 # used many times when generating database:
 my $GROUPID; 

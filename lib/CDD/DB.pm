@@ -11,6 +11,9 @@ has file => (is => 'ro');
 has sql => (is => 'ro',
             builder => \&_build_sql,
            );
+has generated => (is => 'rwp', 
+                  default => sub{ '' }
+                 );
 
 sub BUILDARGS {
     my ($class, @args) = @_;
@@ -45,6 +48,7 @@ sub _build_sql {
     }
     if ($generate) {
         CDD::DB::Populator->new(sql=>$sqlite)->generate;
+        $self->_set_generated(1);
     }
     return $sqlite;
 }
