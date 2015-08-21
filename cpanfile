@@ -1,5 +1,6 @@
 requires 'Modern::Perl';
 requires 'Moo';
+requires 'MooX::Singleton';
 requires 'List::MoreUtils';
 requires 'Data::Dump';
 requires 'Mojolicious';
