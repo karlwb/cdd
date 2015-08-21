@@ -42,7 +42,7 @@ sub BUILDARGS {
                  } @{$group->cards};
     $q .= 'where grp.numcards = ?';
     
-    my $res = CDD::DB->new->sql->db->query($q, @cards, scalar(@cards))->hashes;
+    my $res = CDD::DB->instance->sql->db->query($q, @cards, scalar(@cards))->hashes;
     confess "Not a valid play: @cards: too many cards" unless @{$res//[]} == 1;
     confess "Not a valid play: @cards: type for $class wrong: " . pp($res->[0]{name}) 
         unless $typename{$class} eq $res->[0]{name};

@@ -7,6 +7,8 @@ use CDD::DB::Populator;
 use constant DB_FILENAME => "cdd.db";  # default
 
 use Moo;
+with 'MooX::Singleton';
+
 has file => (is => 'ro');
 has sql => (is => 'ro',
             builder => \&_build_sql,
@@ -50,6 +52,7 @@ sub _build_sql {
         CDD::DB::Populator->new(sql=>$sqlite)->generate;
         $self->_set_generated(1);
     }
+    say $sqlite if $ENV{VERBOSE};
     return $sqlite;
 }
 
