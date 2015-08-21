@@ -1,9 +1,9 @@
 package CDD::Play;
-use CDD::SimpleGroup;
+use CDD::Group;
 use List::MoreUtils qw/all/;
 use Carp qw/confess/;
 use Moo;
-with 'CDD::Group';
+with 'CDD::Role::Group';
 
 has size  => ( is => 'ro');
 has val   => ( is => 'ro');
@@ -11,7 +11,7 @@ has highest => ( is => 'ro' );
 
 sub BUILDARGS {
     my ($class, @args) = @_;
-    my $group = CDD::SimpleGroup->new(@args);
+    my $group = CDD::Group->new(@args);
     my $cards = $class->_validate($group);
     my $val   = $class->_valuate($group);
     my $highest = $class->_highest($group);

@@ -2,7 +2,7 @@ package CDD::Deck;
 use Moo;
 use CDD::Card;
 
-with 'CDD::Group';
+with 'CDD::Role::Group';
 
 sub _build_cards {
     my @cards = ();
