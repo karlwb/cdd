@@ -31,12 +31,12 @@ sub _generate_database {
     eval {
         my $tx = $db->begin;
         _create_schema($db);
-        say STDERR "#populating tables..." if $VERBOSE;
+        say STDERR "# populating tables..." if $VERBOSE;
         _populate_suits($db);
         _populate_grptype($db);
         _populate_cards($db);
 
-        say STDERR "#generating plays and populating groups..." if $VERBOSE;
+        say STDERR "# generating plays and populating groups..." if $VERBOSE;
         # singles have their own values
         $GROUPID = 1;
         $VALUE = 1; 
@@ -59,7 +59,7 @@ sub _generate_database {
         $straight_flushes = _populate_straight_flushes(db=>$db, cards=>5, type=>8, straight_flushes=>$straight_flushes);
 
         if ( $VERBOSE ) {
-           say STDERR "#Summary:";
+           say STDERR "# Summary:";
            say STDERR "#           singles: " . scalar(@{$singles}); 
            say STDERR "#             pairs: " . scalar(@{$pairs}); 
            say STDERR "#           triples: " . scalar(@{$triples}); 
@@ -77,7 +77,7 @@ sub _generate_database {
 
 sub _create_schema {
     my $db = shift;
-    say STDERR "#creating tables..." if $VERBOSE;
+    say STDERR "# creating tables..." if $VERBOSE;
     my $create = {
         card => { create => q/create table card (id text not null primary key, rank integer not null, suit_id  text not null, value integer not null)/,
                   index => [q/create index idx%d on card(id)/,
@@ -162,7 +162,7 @@ sub _populate_singles {
             $db->query($SQL_GRPAVAIL, $GROUPID);
             $db->query($SQL_GRPCARD, $GROUPID, $c);
             push @singles, [$c];
-            say STDERR "#single: ($c) val:$VALUE, group: $GROUPID" if $VERBOSE > 1;
+            say STDERR "# single: ($c) val:$VALUE, group: $GROUPID" if $VERBOSE > 1;
             $VALUE++;
             $GROUPID++;
         }
@@ -193,7 +193,7 @@ sub _populate_pairs {
                 $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $realval);
                 $db->query($SQL_GRPAVAIL, $GROUPID);
                 map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @pair;
-                say STDERR "#pair: (@pair) val:$realval, group:$GROUPID" if $VERBOSE > 1;
+                say STDERR "# pair: (@pair) val:$realval, group:$GROUPID" if $VERBOSE > 1;
                 $GROUPID++;
             }
         }
@@ -219,7 +219,7 @@ sub _populate_triples {
                 my ($s1, $s2, $s3) = @{$group};
                 my @triple = ("$r$s1", "$r$s2", "$r$s3");
                 push @triples, \@triple;
-                say STDERR "#triple: (@triple) val:$realval, group:$GROUPID" if $VERBOSE > 1;
+                say STDERR "# triple: (@triple) val:$realval, group:$GROUPID" if $VERBOSE > 1;
                 $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $realval);
                 $db->query($SQL_GRPAVAIL, $GROUPID);
                 map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @triple;
@@ -259,7 +259,7 @@ sub _populate_straights {
 
                             # non flush straight...
                             push @straights, \@straight;
-                            say STDERR"straight: (@straight) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
+                            say STDERR "# straight: (@straight) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
                             $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $VALUE);
                             $db->query($SQL_GRPAVAIL, $GROUPID);
                             map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @straight;
@@ -322,7 +322,7 @@ sub _populate_flushes {
                                 $VALUE = $start_value + $val;
                                 my @flush = ("$r1$s", "$r2$s", "$r3$s", "$r4$s", "$r5$s");
                                 push @{$flushes->{$val}}, \@flush;
-                                say STDERR "#flush: (@flush) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
+                                say STDERR "# flush: (@flush) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
                                 $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $VALUE);
                                 $db->query($SQL_GRPAVAIL, $GROUPID);
                                 map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @flush;
@@ -376,7 +376,7 @@ sub _populate_full_houses {
             }
             my @full_house = ($t1, $t2, $t3, $p1, $p2);
             push @full_houses, \@full_house;
-            say STDERR "#full house: (@full_house) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
+            say STDERR "# full house: (@full_house) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
             $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $VALUE);
             $db->query($SQL_GRPAVAIL, $GROUPID);
             map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @full_house;
@@ -415,7 +415,7 @@ sub _populate_quads {
                 $x = $r;
             }
             push @quads, \@quad;
-            say STDERR "#quads+1: (@quad) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
+            say STDERR "# quads+1: (@quad) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
             $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $VALUE);
             $db->query($SQL_GRPAVAIL, $GROUPID);
             map { $db->query($SQL_GRPCARD, $GROUPID, $_) } @quad;
@@ -435,12 +435,12 @@ sub _populate_straight_flushes {
     say STDERR "#  * straight flushes (groupid: $GROUPID, value: $VALUE)" if $VERBOSE;
 
     foreach my $sf (@{$straight_flushes}) {
-        say STDERR "#straight flush: (@{$sf}) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
+        say STDERR "# straight flush: (@{$sf}) val:$VALUE, group:$GROUPID" if $VERBOSE > 1;
         $db->query($SQL_GRP, $GROUPID, $args{cards}, $args{type}, $VALUE);
         $db->query($SQL_GRPAVAIL, $GROUPID);
         map{ $db->query($SQL_GRPCARD, $GROUPID, $_) } @{$sf};
         $GROUPID++;
-
+        $VALUE++;
     }
     say STDERR "#    --> [populated " . scalar(@{$straight_flushes}) . ' straight flushes]' if $VERBOSE;
     return $straight_flushes;
