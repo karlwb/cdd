@@ -5,6 +5,10 @@ use Data::Dump;
 
 require_ok('CDD::DB');
 use_ok('CDD::DB');
+{
+    no warnings 'once';
+    $CDD::DB::Populator::VERBOSE = 1; # 0 say nothing, 1 just overview, 2 data
+}
 
 my $file = 'test.db';
 unlink $file if -e $file;
