@@ -3,11 +3,15 @@ use Test::More;
 use Test::Exception;
 use Data::Dump;
 
+if ( not $ENV{TEST_AUTHOR} ) {
+   plan skip_all => 'Author test. Set TEST_AUTHOR to test';
+}
+
 require_ok('CDD::DB');
 use_ok('CDD::DB');
 {
     no warnings 'once';
-    $CDD::DB::Populator::VERBOSE = 1; # 0 say nothing, 1 just overview, 2 data
+    $CDD::DB::Populator::VERBOSE = $ENV{VERBOSE} // 1; # 0 say nothing, 1 just overview, 2 data
 }
 
 my $file = 'test.db';
@@ -50,5 +54,5 @@ $obj = CDD::DB->new(file=>$file); # use existing db
 is $obj->generated, '', 'generated is false';
 is $obj->sql->db->query('select count(*) as n from suit')->hash->{n}, 4, 'existing db works';
 
-unlink $file if -e $file;
+#unlink $file if -e $file;
 done_testing;

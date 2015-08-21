@@ -16,7 +16,6 @@ dies_ok { CDD::Play::Flush->new('ad')} 'new dies: too few';
 my $low = CDD::Play::Flush->new('4d', '5d', '8d', 'JD', '3d');
 is $low->size, 5, 'size right';
 is $low->val, 40, 'val right';
-is_deeply $low->highest, CDD::Card->new('JD'), 'highest';
 is "$low", "[3D, 4D, 5D, 8D, JD]", "string interpolation";
 is $low->as_string, '[3D, 4D, 5D, 8D, JD]', "as_string";
 is $low->as_unicode,'[3♢, 4♢, 5♢, 8♢, J♢]', "as_unicode";

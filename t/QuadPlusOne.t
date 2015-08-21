@@ -16,7 +16,6 @@ dies_ok { CDD::Play::QuadPlusOne->new('ad')} 'new dies: too few';
 my $low = CDD::Play::QuadPlusOne->new('6d', '6c', '6h', '6s', '4c');
 is $low->size, 5, 'size right';
 is $low->val, 85, 'val right';
-is_deeply $low->highest, CDD::Card->new('6S'), 'highest';
 is "$low", "[4C, 6D, 6C, 6H, 6S]", "string interpolation";
 is $low->as_string, '[4C, 6D, 6C, 6H, 6S]', "as_string";
 is $low->as_unicode,'[4♧, 6♢, 6♧, 6♡, 6♤]', "as_unicode";
