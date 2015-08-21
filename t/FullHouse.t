@@ -16,7 +16,6 @@ dies_ok { CDD::Play::FullHouse->new('ad')} 'new dies: too few';
 my $low = CDD::Play::FullHouse->new('6d', '6c', '6h', '4d', '4c');
 is $low->size, 5, 'size right';
 is $low->val, 72, 'val right';
-is_deeply $low->highest, CDD::Card->new('6H'), 'highest';
 is "$low", "[4D, 4C, 6D, 6C, 6H]", "string interpolation";
 is $low->as_string, '[4D, 4C, 6D, 6C, 6H]', "as_string";
 is $low->as_unicode,'[4♢, 4♧, 6♢, 6♧, 6♡]', "as_unicode";

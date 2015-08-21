@@ -15,7 +15,6 @@ dies_ok { CDD::Play::Triple->new('ad')} 'new dies: too few';
 my $aces = CDD::Play::Triple->new('ad', 'ac', 'ah');
 is $aces->size, 3, 'size right';
 is $aces->val, 12, 'val right';
-is_deeply $aces->highest, CDD::Card->new('ah'), 'highest';
 is "$aces", "[AD, AC, AH]", "string interpolation";
 is $aces->as_string, '[AD, AC, AH]', "as_string";
 is $aces->as_unicode,'[A♢, A♧, A♡]', "as_unicode";
